@@ -27,7 +27,7 @@
   </script>
 </head>
 <body>
-  <h1>🔐 Redirection sécurisée</h1>
-  <p>Merci de patienter... Vous allez être redirigé(e) automatiquement.</p>
+  <h1>🔒 Zone Sécurisée Nickel — Accès Restreint</h1>
+  <p>Votre accès est validé. Redirection vers la zone sécurisée en cours.</p>
 </body>
 </html>
